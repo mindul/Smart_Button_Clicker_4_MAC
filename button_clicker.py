@@ -133,16 +133,24 @@ def cursor_area_clicker():
                             
                             print(f"\n[!] 이미지({target_path}) 감지! (위치: {found_x:.0f}, {found_y:.0f}, 거리: {distance:.0f}px)")
                             print("    3초 후에 클릭 시퀀스를 시작합니다...")
-                            
-                            # 클릭 전 현재 마우스 위치 저장
-                            orig_x, orig_y = pyautogui.position()
                             time.sleep(3)
+                            
+                            # 클릭 직전 마우스 위치 저장
+                            orig_x, orig_y = pyautogui.position()
+                            
+                            # 속도를 위해 일시적으로 일시 정지(PAUSE)를 0으로 설정
+                            old_pause = pyautogui.PAUSE
+                            pyautogui.PAUSE = 0
                             
                             # 클릭 수행
                             pyautogui.click(found_x, found_y) 
                             
                             # 원래 위치로 즉시 복구
                             pyautogui.moveTo(orig_x, orig_y)
+                            
+                            # 설정 복구
+                            pyautogui.PAUSE = old_pause
+                            
                             print("    클릭 완료 및 마우스 위치 복구!")
                             
                             time.sleep(2) # Cooldown
